@@ -60,9 +60,9 @@ const enum IrProtocol {
   NEC = 1,
 }
 
-//% color=#0fbc11 icon="\u272a" block="MakerBit"
-//% category="MakerBit"
-namespace makerbit {
+//% color=#0fbc11 icon="\u272a" block="IR Control"
+//% category="IR_Control"
+namespace IR_Control {
   let irState: IrState;
 
   const IR_REPEAT = 256;
