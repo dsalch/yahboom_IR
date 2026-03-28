@@ -1,6 +1,6 @@
 {
     "name": "Yahboom-IR",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "MakeCode extension for Yahboom Smartcar",
     "license": "MIT",
     "dependencies": {
