@@ -2,24 +2,28 @@
 // Independent version - No external dependencies required
 
 const enum IrButton {
-    //% block="any"
-    Any = -1,
+    //% block="PWR"
+    Pwr =0x00,
     //% block="▲"
     Up = 0x62,
-    //% block=" "
-    Unused_2 = -2,
+    //% block="Light"
+    Light = 0x00,
     //% block="◀"
     Left = 0x22,
-    //% block="OK"
-    Ok = 0x02,
+    //% block="Beep"
+    Beep = 0x02,
     //% block="▶"
     Right = 0xc2,
-    //% block=" "
-    Unused_3 = -3,
+    //% block="TLeft"
+    TLeft = 0x00,
     //% block="▼"
     Down = 0xa8,
-    //% block=" "
-    Unused_4 = -4,
+    //% block="TRight"
+    TRight = 0x00,
+    //% block="+"
+    Plus = 0x00,
+    //% block="0"
+    Number_0 = 0x00,
     //% block="1"
     Number_1 = 0x68,
     //% block="2"
@@ -44,6 +48,8 @@ const enum IrButton {
     Number_0 = 0x4a,
     //% block="#"
     Hash = 0x52,
+    //% block="any"
+    Any = -1,
 }
 
 const enum IrButtonAction {
