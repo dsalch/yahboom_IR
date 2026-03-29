@@ -14,12 +14,12 @@ const enum IrButton {
     Beep = 0x02,
     //% block="▶"
     Right = 0xc2,
-    //% block="SLeft"
-    SLeft = 0x00,
+    //% block="SpinL"
+    SpinL = 0x00,
     //% block="▼"
     Down = 0xa8,
-    //% block="SRight"
-    SRight = 0x00,
+    //% block="SpinR"
+    SpinR = 0x00,
     //% block="+"
     Plus = 0x00,
     //% block="0"
