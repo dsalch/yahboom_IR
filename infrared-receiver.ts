@@ -42,12 +42,6 @@ const enum IrButton {
     Number_8 = 0x38,
     //% block="9"
     Number_9 = 0x5a,
-    //% block="*"
-    Star = 0x42,
-    //% block="0"
-    Number_0 = 0x4a,
-    //% block="#"
-    Hash = 0x52,
     //% block="any"
     Any = -1,
 }
