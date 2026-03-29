@@ -60,9 +60,9 @@ const enum IrProtocol {
     NEC = 1,
 }
 
-//% color=#0fbc11 icon="\u272a" block="IR Control"
-//% category="IR_Control"
-namespace IR_Control {
+//% color=#0fbc11 icon="\u272a" block="IR Receiver"
+//% category="IR Receiver"
+namespace IR_Receiver {
     let irState: IrState;
 
     const IR_REPEAT = 256;
@@ -198,18 +198,16 @@ namespace IR_Control {
     /**
      * Connects to the IR receiver module at the specified pin and configures the IR protocol.
      */
-    //% subcategory="IR Receiver"
-    //% blockId="ir_control_connect_receiver"
+    //% blockId="ir_receiver_connect"
     //% block="connect IR receiver at pin %pin and decode %protocol"
     //% pin.fieldEditor="gridpicker" pin.fieldOptions.columns=4
-    //% weight=90
+    //% weight=100
     export function connectIrReceiver(pin: DigitalPin, protocol: IrProtocol): void {
         initIrState();
         if (irState.protocol) return;
         irState.protocol = protocol;
         enableIrMarkSpaceDetection(pin);
 
-        // Standard background loop replacement for background.schedule
         control.inBackground(() => {
             while (true) {
                 notifyIrEvents();
@@ -233,11 +231,10 @@ namespace IR_Control {
     /**
      * Do something when a specific button is pressed or released on the remote control.
      */
-    //% subcategory="IR Receiver"
-    //% blockId=ir_control_on_ir_button
+    //% blockId=ir_receiver_on_button
     //% block="on IR button | %button | %action"
     //% button.fieldEditor="gridpicker" button.fieldOptions.columns=3
-    //% weight=50
+    //% weight=90
     export function onIrButton(button: IrButton, action: IrButtonAction, handler: () => void) {
         initIrState();
         if (action === IrButtonAction.Pressed) {
@@ -247,42 +244,23 @@ namespace IR_Control {
         }
     }
 
-    //% subcategory="IR Receiver"
-    //% blockId=ir_control_ir_button_pressed
-    //% block="IR button"
-    //% weight=70
-    export function irButton(): number {
-        basic.pause(0);
-        if (!irState) return IrButton.Any;
-        return irState.commandSectionBits >> 8;
-    }
-
     /**
      * Do something when an IR datagram is received.
      */
-    //% subcategory="IR Receiver"
-    //% blockId=ir_control_on_ir_datagram
+    //% blockId=ir_receiver_on_datagram
     //% block="on IR datagram received"
-    //% weight=40
+    //% weight=80
     export function onIrDatagram(handler: () => void) {
         initIrState();
         irState.onIrDatagram = handler;
     }
 
-    //% subcategory="IR Receiver"
-    //% blockId=ir_control_ir_datagram
-    //% block="IR datagram"
-    //% weight=30
-    export function irDatagram(): string {
-        basic.pause(0);
-        initIrState();
-        return "0x" + ir_rec_to16BitHex(irState.addressSectionBits) + ir_rec_to16BitHex(irState.commandSectionBits);
-    }
-
-    //% subcategory="IR Receiver"
-    //% blockId=ir_control_was_any_ir_datagram_received
+    /**
+     * Returns true if any IR data was received since the last call of this function.
+     */
+    //% blockId=ir_receiver_was_received
     //% block="IR data was received"
-    //% weight=80
+    //% weight=70
     export function wasIrDataReceived(): boolean {
         basic.pause(0);
         initIrState();
@@ -293,10 +271,37 @@ namespace IR_Control {
         return false;
     }
 
-    //% subcategory="IR Receiver"
-    //% blockId=ir_control_button_code
-    //% block="IR button code %button"
+    /**
+     * Returns the code of the IR button that was pressed last.
+     */
+    //% blockId=ir_receiver_button_pressed
+    //% block="IR button"
     //% weight=60
+    export function irButton(): number {
+        basic.pause(0);
+        if (!irState) return IrButton.Any;
+        return irState.commandSectionBits >> 8;
+    }
+
+    /**
+     * Returns the IR datagram as 32-bit hexadecimal string.
+     */
+    //% blockId=ir_receiver_datagram
+    //% block="IR datagram"
+    //% weight=50
+    export function irDatagram(): string {
+        basic.pause(0);
+        initIrState();
+        return "0x" + ir_rec_to16BitHex(irState.addressSectionBits) + ir_rec_to16BitHex(irState.commandSectionBits);
+    }
+
+    /**
+     * Returns the command code of a specific IR button.
+     */
+    //% blockId=ir_receiver_button_code
+    //% block="IR button code %button"
+    //% button.fieldEditor="gridpicker" button.fieldOptions.columns=3
+    //% weight=40
     export function irButtonCode(button: IrButton): number {
         basic.pause(0);
         return button as number;
