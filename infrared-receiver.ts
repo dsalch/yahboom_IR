@@ -1,9 +1,9 @@
-// IR Control blocks supporting Keyestudio/NEC Infrared Wireless Modules
+// IR Control blocks supporting Yahboom/NEC Infrared Wireless Modules
 // Independent version - No external dependencies required
 
 const enum IrButton {
     //% block="PWR"
-    Pwr =0x00,
+    Pwr = 0x00,
     //% block="▲"
     Up = 0x80,
     //% block="Light"
@@ -55,13 +55,6 @@ const enum IrButtonAction {
     Released = 1,
 }
 
-const enum IrProtocol {
-    //% block="Keyestudio"
-    Keyestudio = 0,
-    //% block="NEC"
-    NEC = 1,
-}
-
 //% color=#0fbc11 icon="\u272a" block="IR Receiver"
 //% category="IR Receiver"
 namespace IR_Receiver {
@@ -74,7 +67,6 @@ namespace IR_Receiver {
     const REPEAT_TIMEOUT_MS = 120;
 
     interface IrState {
-        protocol: IrProtocol;
         hasNewDatagram: boolean;
         bitsReceived: uint8;
         addressSectionBits: uint16;
@@ -101,13 +93,7 @@ namespace IR_Receiver {
     function appendBitToDatagram(bit: number): number {
         irState.bitsReceived += 1;
 
-        if (irState.bitsReceived <= 8) {
-            irState.hiword = (irState.hiword << 1) + bit;
-            if (irState.protocol === IrProtocol.Keyestudio && bit === 1) {
-                irState.bitsReceived = 9;
-                irState.hiword = 1;
-            }
-        } else if (irState.bitsReceived <= 16) {
+        if (irState.bitsReceived <= 16) {
             irState.hiword = (irState.hiword << 1) + bit;
         } else if (irState.bitsReceived <= 32) {
             irState.loword = (irState.loword << 1) + bit;
@@ -182,7 +168,6 @@ namespace IR_Receiver {
     function initIrState() {
         if (irState) return;
         irState = {
-            protocol: undefined,
             bitsReceived: 0,
             hasNewDatagram: false,
             addressSectionBits: 0,
@@ -198,16 +183,14 @@ namespace IR_Receiver {
     }
 
     /**
-     * Connects to the IR receiver module at the specified pin and configures the IR protocol.
+     * Connects to the IR receiver module at the specified pin.
      */
     //% blockId="ir_receiver_connect"
-    //% block="connect IR receiver at pin %pin and decode %protocol"
+    //% block="connect IR receiver at pin %pin"
     //% pin.fieldEditor="gridpicker" pin.fieldOptions.columns=4
     //% weight=100
-    export function connectIrReceiver(pin: DigitalPin, protocol: IrProtocol): void {
+    export function connectIrReceiver(pin: DigitalPin): void {
         initIrState();
-        if (irState.protocol) return;
-        irState.protocol = protocol;
         enableIrMarkSpaceDetection(pin);
 
         control.inBackground(() => {
