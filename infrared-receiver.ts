@@ -44,7 +44,7 @@ const enum IrButton {
     Number_8 = 0x98,
     //% block="9"
     Number_9 = 0x58,
-    //% block="any"
+    // Removed block metadata so it doesn't shift the grid
     Any = -1,
 }
 
@@ -248,7 +248,6 @@ namespace IR_Receiver {
     //% block="IR data was received"
     //% weight=70
     export function wasIrDataReceived(): boolean {
-        basic.pause(0);
         initIrState();
         if (irState.hasNewDatagram) {
             irState.hasNewDatagram = false;
@@ -264,8 +263,7 @@ namespace IR_Receiver {
     //% block="IR button"
     //% weight=60
     export function irButton(): number {
-        basic.pause(0);
-        if (!irState) return IrButton.Any;
+        if (!irState) return 0;
         return irState.commandSectionBits >> 8;
     }
 
@@ -276,7 +274,6 @@ namespace IR_Receiver {
     //% block="IR datagram"
     //% weight=50
     export function irDatagram(): string {
-        basic.pause(0);
         initIrState();
         return "0x" + ir_rec_to16BitHex(irState.addressSectionBits) + ir_rec_to16BitHex(irState.commandSectionBits);
     }
@@ -289,7 +286,6 @@ namespace IR_Receiver {
     //% button.fieldEditor="gridpicker" button.fieldOptions.columns=3
     //% weight=40
     export function irButtonCode(button: IrButton): number {
-        basic.pause(0);
         return button as number;
     }
 
