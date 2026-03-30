@@ -188,8 +188,9 @@ namespace IR_Receiver {
     //% blockId="ir_receiver_connect"
     //% block="connect IR receiver at pin %pin"
     //% pin.fieldEditor="gridpicker" pin.fieldOptions.columns=4
+    //% pin.defl=DigitalPin.P8
     //% weight=100
-    export function connectIrReceiver(pin: DigitalPin): void {
+    export function connectIrReceiver(pin: DigitalPin = DigitalPin.P8): void {
         initIrState();
         enableIrMarkSpaceDetection(pin);
 
