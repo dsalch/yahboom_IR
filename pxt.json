@@ -8,7 +8,8 @@
     },
     "files": [
         "README.md",
-        "infrared-receiver.ts"
+        "infrared-receiver.ts",
+        "icon.png"
     ],
     "testFiles": [
         "test.ts"
