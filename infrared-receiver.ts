@@ -55,7 +55,7 @@ const enum IrButtonAction {
     Released = 1,
 }
 
-//% color=#0fbc11 icon="\u272a" block="IR Receiver"
+//% weight=10 color=#0fbc11 icon="\u272a" block="IR Receiver"
 //% category="IR Receiver"
 namespace IR_Receiver {
     let irState: IrState;
