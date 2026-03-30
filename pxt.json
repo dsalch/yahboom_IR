@@ -1,17 +1,14 @@
 {
     "name": "Yahboom-IR",
-    "version": "2.0.10",
+    "version": "2.1.0",
     "description": "MakeCode extension for Yahboom Smartcar",
     "license": "MIT",
     "dependencies": {
         "core": "*"
-   
     },
     "files": [
         "README.md",
-        "infrared-receiver.ts",
-        "_locales/de/MakerBit-IR-Receiver-strings.json",
-        "_locales/cs/MakerBit-IR-Receiver-strings.json"
+        "infrared-receiver.ts"
     ],
     "testFiles": [
         "test.ts"
